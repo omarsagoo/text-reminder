@@ -32,7 +32,7 @@ async function main(){
         // await addPatientToDoctor(pt, "1234124", allDoctors)
         // patient = await findPatient("1234124", "Max", allDoctors)
         // await addReminderToPatientAndRemindersCol("1234124", rm, patient[0]._id, allDoctors)
-        await listPatients("1234124", allDoctors)
+        await listReminders("1234124", allDoctors)
  
     } catch (e) {
         console.error(e);
@@ -115,7 +115,19 @@ async function listPatients(NPI, allDoctorsCollection){
 
     if (doctorInCol) {
         doctorDB = await client.db(NPI)
-        results = await doctorDB.collection("patients").find()
+        results = await doctorDB.collection("patients").find().toArray()
     }
+    return results
+}
+
+async function listReminders(NPI, allDoctorsCollection) {
+    doctorInCol = await allDoctorsCollection.findOne({NPI:NPI})
+    results = null
+
+    if (doctorInCol) {
+        doctorDB = await client.db(NPI)
+        results = await doctorDB.collection("reminders").find().toArray()
+    }
+
     return results
 }
