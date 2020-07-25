@@ -16,9 +16,10 @@ $(function() {
 
         // Serialize the form data.
         var formData = $(form).serialize();
-        console.log(formData);
 
         // Submit the form using AJAX.
-        $.post("http://localhost:3000/add/patient", formData)
+        $.post("http://localhost:3000/add/patient", formData, function(){
+            document.location = 'index.html'
+        });
     });
 });

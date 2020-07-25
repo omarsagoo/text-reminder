@@ -18,9 +18,7 @@ app.get("/patients", function (req, res)  {
 })
 
 app.post("/add/patient", urlEncodedParser ,function (req, res) {
-    console.log("here!", req.body)
     patient.addPatients("1234124", req.body).then(function (response) {
-        console.log(response)
         return res.redirect('/')
     })
 })
