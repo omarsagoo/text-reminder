@@ -8,15 +8,19 @@ function createWindow () {
     width: 1200,
     height: 900,
     webPreferences: {
+      nodeIntegration: true,
       preload: path.join(__dirname, 'preload.js')
     }
   })
-
+  
   // and load the index.html of the app.
   mainWindow.loadFile('templates/index.html')
 
+  // run node server from here
+  let server = require("./server/server.js")
+
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished

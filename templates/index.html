@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <meta http-equiv="Content-Security-Policy" content="script-src * data: https://ssl.gstatic.com 'unsafe-inline' 'unsafe-eval';">
     <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="style.css">
@@ -36,12 +36,14 @@
       </div>
 
     <div class="clients">
-      <ul class="clientsList">
-        <li>one</li>
-        <li>two</li>
-      </ul>
+      <table id="clientTable">
+        <tr>
+          <th>Name</th>
+          <th>Phone</th>
+        </tr>
+      </table>
     </div>
 
-<script src="./renderer.js"></script>
+    <script type="text/javascript" src="../public/js/app.js"></script>
   </body>
 </html>
