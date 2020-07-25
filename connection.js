@@ -11,8 +11,15 @@ async function main(){
         NPI: "1234124"
     }
     pt = {
-        name: "omar Sagoo", 
-        age: "23"
+        name: "Max Shi", 
+        age: "23",
+        phone: "555555555",
+        reminders: []
+    }
+    rm = {
+        body:"reminder at this day",
+        date: "10/10/2020",
+        patientName: "omar Sagoo"
     }
     try {
         // Connect to the MongoDB cluster
@@ -21,10 +28,11 @@ async function main(){
         const allDoctors = doctors.collection("doctors")
         
         // Make the appropriate DB calls
-        // await addPatientToDoctor("1234124")
         // await createDoctorDatabaseAndAddDoctorToAllDoctors("1234124", dr, allDoctors, doctors)
         // await addPatientToDoctor(pt, "1234124", allDoctors)
-        await findPatient("1234124", "omar", allDoctors)
+        // patient = await findPatient("1234124", "Max", allDoctors)
+        // await addReminderToPatientAndRemindersCol("1234124", rm, patient[0]._id, allDoctors)
+        await listPatients("1234124", allDoctors)
  
     } catch (e) {
         console.error(e);
@@ -40,6 +48,7 @@ main().catch(console.error);
 async function createDoctorDatabaseAndAddDoctorToAllDoctors(NPI, dr, allDoctorsCollection, database){
     doctorDB = client.db(NPI)
     col = await doctorDB.createCollection("patients")
+    await doctorDB.createCollection("reminders")
 
     await allDoctorsCollection.insertOne(dr)
 };
@@ -68,6 +77,7 @@ async function findPatient(NPI, patientName, allDoctorsCollection){
     }
 }
 
+// Adds a patient to the doctors patients collection
 async function addPatientToDoctor(patient, NPI, allDoctorsCollection) {
     doctorInCol = await allDoctorsCollection.findOne({NPI:NPI})
     result = null
@@ -82,4 +92,30 @@ async function addPatientToDoctor(patient, NPI, allDoctorsCollection) {
     } else {
         console.log("error")
     }
+}
+
+// adds a reminder to the doctors reminders collection
+// also adds reminder to the patients reminder list.
+async function addReminderToPatientAndRemindersCol(NPI, reminder, patientID, allDoctorsCollection){
+    doctorInCol = await allDoctorsCollection.findOne({NPI:NPI})
+    result = null
+
+    if (doctorInCol) {
+        doctorDB = await client.db(NPI)
+        await doctorDB.collection("reminders").insertOne(reminder)
+        patient = await doctorDB.collection("patients").findOne({_id: patientID})
+
+        await doctorDB.collection("patients").updateOne({_id: patientID}, {$push:{reminders: reminder}})
+    }
+}
+
+async function listPatients(NPI, allDoctorsCollection){
+    doctorInCol = await allDoctorsCollection.findOne({NPI:NPI})
+    results = null
+
+    if (doctorInCol) {
+        doctorDB = await client.db(NPI)
+        results = await doctorDB.collection("patients").find()
+    }
+    return results
 }
