@@ -12,12 +12,28 @@
   </head>
   <body>
     <!-- custom navbar -->
-    <div class="nav">
-      <ul class="nav">
-        <li class="nav"><a href="#">Home</a></li>
-        <li class="nav"><a href="#">Add</a></li>
-      </ul>
-    </div>
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <div class="dropdown">
+          <button class="dropbtn">Add
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="addPatient.html">Patient</a>
+            <a href="addReminder.html">Reminder</a>
+          </div>
+        </div>
+
+        <div class="dropdown">
+            <button class="dropbtn">Remove
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+              <a href="addPatient.html">Patient</a>
+              <a href="#">Reminder</a>
+            </div>
+          </div>
+      </div>
 
     <div class="clients">
       <ul class="clientsList">
@@ -25,7 +41,7 @@
         <li>two</li>
       </ul>
     </div>
-    <!-- You can also require other files to run in this process -->
-    <script src="./renderer.js"></script>
+
+<script src="./renderer.js"></script>
   </body>
 </html>

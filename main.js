@@ -2,11 +2,6 @@
 const {app, BrowserWindow} = require('electron')
 const path = require('path')
 
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://omar:admin1234@cluster0.uirge.mongodb.net/<dbname>?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true });
-
-
 function createWindow () {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
