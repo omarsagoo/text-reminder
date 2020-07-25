@@ -22,3 +22,17 @@ ul.nav {
   li.nav a:hover {
     background-color: #111;
   }
+
+ul.clientsList {
+    list-style-type: none;
+    background: #ffe5e5;
+    padding: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+ul.clientsList > li {
+    background: #cce5ff;
+    padding: 5px;
+    margin: 5px;
+}
