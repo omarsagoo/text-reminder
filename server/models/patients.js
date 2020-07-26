@@ -31,3 +31,17 @@ module.exports.addPatients = async function (NPI, patient){
         }
     })
 }
+
+module.exports.removePatients = async function (NPI, patient) {
+    return new Promise(async function (resolve, reject) {
+        await client.connect()
+        doctorDB = await client.db(NPI)
+        result = await doctorDB.collection("patients").deleteOne(patient)
+
+        if (result.deletedCount >= 1) {
+            resolve(result)
+        } else {
+            reject()
+        }
+    })
+}

@@ -2,30 +2,15 @@ const MongoClient = require('mongodb').MongoClient;
 require("dotenv").config()
 
 const uri = process.env.MONGO_URI
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, poolSize:200 });
 
 
 async function main(){
-    dr = {
-        name: "Dr. Doctorson",
-        NPI: "1234124"
-    }
-    pt = {
-        name: "Max Shi", 
-        age: "23",
-        phone: "555555555",
-        reminders: []
-    }
-    rm = {
-        body:"reminder at this day",
-        date: "10/10/2020",
-        patientName: "omar Sagoo"
-    }
     try {
         // Connect to the MongoDB cluster
-        await client.connect();
-        const doctors = client.db("doctors")
-        const allDoctors = doctors.collection("doctors")
+        // await client.connect();
+        // const doctors = client.db("doctors")
+        // const allDoctors = doctors.collection("doctors")
         
         // Make the appropriate DB calls
         // await createDoctorDatabaseAndAddDoctorToAllDoctors("1234124", dr, allDoctors, doctors)
