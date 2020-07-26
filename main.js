@@ -14,7 +14,7 @@ function createWindow () {
   })
   
   // and load the index.html of the app.
-  mainWindow.loadFile('templates/index.html')
+  mainWindow.loadURL('file://' + __dirname + '/templates/index.html')
 
   // run node server from here
   let server = require("./server/server.js")

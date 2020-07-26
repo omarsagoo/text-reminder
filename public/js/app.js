@@ -15,11 +15,11 @@ $(document).ready(function () {
             "</td><td id='age"+ i +"'>" +
             response[i].age +
             "</td><td>" +
-            "<button class='"+ i +"' id='delete-button'>Delete patient</button></td></tr>"
+            "<button class='"+ i +"' id='patient-delete-button'>Delete patient</button></td></tr>"
         };
         document.getElementById("clientTable").innerHTML += table;
         
-        $("button").click(function () {
+        $("button#patient-delete-button").click(function () {
             myClass = $(this).attr("class")
             
             formData = {

@@ -15,11 +15,11 @@ $(document).ready(function () {
             "</td><td id='body"+ i +"'>" +
             response[i].body +
             "</td><td>" +
-            "<button class='"+ i +"' id='delete-button'>Delete reminder</button></td></tr>"
+            "<button class='"+ i +"' id='reminder-delete-button'>Delete reminder</button></td></tr>"
         };
         document.getElementById("reminderTable").innerHTML += table;
         
-        $("button").click(function () {
+        $("button#reminder-delete-button").click(function () {
             myClass = $(this).attr("class")
             
             formData = {
@@ -27,8 +27,6 @@ $(document).ready(function () {
                 body: document.getElementById("body" + myClass).innerText,
                 date: document.getElementById("date" + myClass).innerText
             }
-            
-            console.log(formData)
 
             $.post("http://localhost:3000/remove/reminder", formData, function(){
                  document.location = 'listReminders.html'

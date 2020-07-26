@@ -7,32 +7,24 @@
     <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style.css">
     <title>Document</title>
 </head>
 <body>
         <div class="navbar">
-                <a href="index.html">Home</a>
-                <div class="dropdown">
-                  <button class="dropbtn">Add
-                    <i class="fa fa-caret-down"></i>
-                  </button>
-                  <div class="dropdown-content">
-                    <a href="addPatient.html">Patient</a>
-                    <a href="addReminder.html">Reminder</a>
-                  </div>
-                </div>
-        
-                <div class="dropdown">
-                    <button class="dropbtn">Remove
-                      <i class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content">
-                      <a href="addPatient.html">Patient</a>
-                      <a href="#">Reminder</a>
-                    </div>
-                  </div>
-              </div>
+          <a href="index.html">Home</a>
+          <a href="listReminders.html"> Reminders</a>
+          <div class="dropdown">
+            <button class="dropbtn">Add
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+              <a href="addPatient.html">Patient</a>
+              <a href="addReminder.html">Reminder</a>
+            </div>
+          </div>
+        </div>
+
         <div class="container">
                 <form action="/add/patient" method="POST" id="ajax-add-patient">
               
