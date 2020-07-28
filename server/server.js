@@ -43,7 +43,16 @@ async function main() {
         })
     })
 
+    app.get("/show/patient/:id", function(req, res) {
+        console.log(req.params.id)
+        patient.showPatient(DB, req.params.id).then(function (response) {
+            // res.json(response)
+            res.render("../templates/index.html", res.json(response))
+        })
+    })
+
     app.post("/add/patient", urlEncodedParser ,function (req, res) {
+        req.body.reminders = []
         patient.addPatients(DB, req.body).then(function (response) {
             return res.redirect('/')
         })

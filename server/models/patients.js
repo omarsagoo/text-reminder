@@ -45,3 +45,14 @@ module.exports.removePatients = async function (doctorDB, patient) {
         }
     })
 }
+
+module.exports.showPatient = async function (doctorDB, patientID) {
+    return new Promise( async function(resolve, reject) {
+        result = await doctorDB.collection("patients").findOne({uuid:patientID})
+        if (result) {
+            resolve(result)
+        } else {
+            reject()
+        }
+    })
+}
