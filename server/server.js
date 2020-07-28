@@ -15,8 +15,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 var urlEncodedParser = bodyParser.urlencoded({extended:false})
 
 
-
-async function main() {
+module.exports.start = async function() {
     await client.connect()
     let DB = null
     console.log("DB connected")
@@ -29,15 +28,16 @@ async function main() {
 
 
     app.get("/", function (req, res) {
-            res.render("../templates/index.html")
+        res.render("../templates/index.html")
     })
 
-    app.get("/clients", function (req, res)  {
-            allClients.getClients(DB).then(function (response) {
-                res.json(response)
-            }).catch((err) => {
-                console.log("/clients: ", err)
-            })
+    app.get("/clients/:id", function (req, res)  {
+        DB = client.db(req.params.id)
+        allClients.getClients(DB).then(function (response) {
+            res.json(response)
+        }).catch((err) => {
+            console.log("/clients: ", err)
+        })
     })
 
     app.get("/reminders", function (req, res) {
@@ -146,4 +146,3 @@ async function main() {
         console.log("Server is running on port :3000")
     })
 }
-main()

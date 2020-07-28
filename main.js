@@ -18,6 +18,7 @@ function createWindow () {
 
   // run node server from here
   let server = require("./server/server.js")
+  server.start()
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools()
