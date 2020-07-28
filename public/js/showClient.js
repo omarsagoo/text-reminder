@@ -7,6 +7,6 @@ $(document).ready(function () {
         url: window.location.href
     }).then(function (response) {
         p = "<p>name: "+ response.name
-        document.getElementById("patient_data").innerHTML = p
+        document.getElementById("client_data").innerHTML = p
     })
 })

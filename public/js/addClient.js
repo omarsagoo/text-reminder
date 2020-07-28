@@ -4,7 +4,7 @@ let $ = require("jquery")
 
 $(function() {
     // Get the form.
-    var form = $('#ajax-add-patient');
+    var form = $('#ajax-add-client');
 
     // Set up an event listener for the contact form.
     $(form).submit(function(event) {
@@ -18,7 +18,7 @@ $(function() {
         formData += "&uuid=" + uuidv4()
 
         // Submit the form using AJAX.
-        $.post("http://localhost:3000/add/patient", formData, function(){
+        $.post("http://localhost:3000/add/client", formData, function(){
             document.location = 'index.html'
         });
     });

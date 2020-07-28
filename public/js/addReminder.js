@@ -16,7 +16,7 @@ $(function() {
 
         // Submit the form using AJAX.
         $.post("http://localhost:3000/add/reminder", formData, function(){
-            document.location = 'listReminders.html'
+            document.location = 'list-reminders.html'
         });
     });
 });

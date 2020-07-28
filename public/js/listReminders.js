@@ -15,17 +15,18 @@ $(document).ready(function () {
             "</td><td id='body"+ i +"'>" +
             response[i].body +
             "</td><td>" +
-            "<button class='"+ i +"' id='reminder-delete-button'>Delete reminder</button></td></tr>"
+            "<button class='"+ i +" "+ response[i].uuid +"' id='reminder-delete-button'>Delete reminder</button></td></tr>"
         };
         document.getElementById("reminderTable").innerHTML += table;
         
         $("button#reminder-delete-button").click(function () {
-            myClass = $(this).attr("class")
-            
+            myClass = $(this).attr("class").split(" ")
+            // console.log(myClass[1])
             formData = {
-                patientName: document.getElementById("rname" + myClass).innerText,
-                body: document.getElementById("body" + myClass).innerText,
-                date: document.getElementById("date" + myClass).innerText
+                name: document.getElementById("rname" + myClass[0]).innerText,
+                body: document.getElementById("body" + myClass[0]).innerText,
+                date: document.getElementById("date" + myClass[0]).innerText,
+                uuid: myClass[1]
             }
 
             $.post("http://localhost:3000/remove/reminder", formData, function(){

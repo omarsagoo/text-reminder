@@ -11,31 +11,31 @@
     <title>Document</title>
 </head>
 <body>
-        <div class="navbar">
-          <a href="index.html">Home</a>
-          <a href="listReminders.html"> Reminders</a>
-          <div class="dropdown">
-            <button class="dropbtn">Add
-              <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-              <a href="addPatient.html">Patient</a>
-              <a href="addReminder.html">Reminder</a>
-            </div>
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="list-reminders.html"> Reminders</a>
+        <div class="dropdown">
+          <button class="dropbtn">Add
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="add-client.html">Client</a>
+            <a href="add-reminder.html">Reminder</a>
           </div>
         </div>
+      </div>
 
         <div class="container">
-                <form action="/add/patient" method="POST" id="ajax-add-patient">
+                <form action="/add/client" method="POST" id="ajax-add-client">
               
                   <label for="name">Name</label>
-                  <input type="text" id="name" name="name" placeholder="Patient name..">
+                  <input type="text" id="name" name="name" placeholder="Client name..">
               
                   <label for="age">age</label>
-                  <input type="text" id="age" name="age" placeholder="Patient age..">
+                  <input type="text" id="age" name="age" placeholder="Client age..">
 
                   <label for="phone">Phone</label>
-                  <input type="text" id="phone" name="phone" placeholder="Patient Phone Number">
+                  <input type="text" id="phone" name="phone" placeholder="Client Phone Number">
               
                   <input type="submit" value="Submit">
                   <input type="submit" value="Cancel">
@@ -43,6 +43,6 @@
                 </form>
         </div>
         <div id="form-messages"></div>
-        <script type="text/javascript" src="../public/js/addPatient.js"></script>
+        <script type="text/javascript" src="../public/js/addClient.js"></script>
 </body>
 </html>

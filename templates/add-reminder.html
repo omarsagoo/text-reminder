@@ -11,14 +11,14 @@
 <body>
       <div class="navbar">
         <a href="index.html">Home</a>
-        <a href="listReminders.html"> Reminders</a>
+        <a href="list-reminders.html"> Reminders</a>
         <div class="dropdown">
           <button class="dropbtn">Add
             <i class="fa fa-caret-down"></i>
           </button>
           <div class="dropdown-content">
-            <a href="addPatient.html">Patient</a>
-            <a href="addReminder.html">Reminder</a>
+            <a href="add-client.html">Client</a>
+            <a href="add-reminder.html">Reminder</a>
           </div>
         </div>
       </div>
@@ -26,8 +26,8 @@
         <div class="container">
                 <form action="/add/reminder" method="POST" id="ajax-add-reminder">
               
-                  <label for="patientName">Name</label>
-                  <input type="text" id="name" name="patientName" placeholder="Patient name..">
+                  <label for="name">Name</label>
+                  <input type="text" id="name" name="name" placeholder="Client name..">
 
                   <label for="date">Date</label>
                   <input type="date" id="date" name="date" placeholder="Reminder Date">

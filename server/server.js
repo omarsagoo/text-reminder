@@ -1,7 +1,10 @@
 let express = require("express")
 let app = express()
-let patient = require("./models/patients")
+let allClients = require("./models/clients")
 let reminder = require("./models/reminders")
+let users = require("./models/user")
+let bcrypt = require("bcrypt")
+
 var bodyParser = require("body-parser");
 const MongoClient = require('mongodb').MongoClient;
 require('dotenv').config()
@@ -15,7 +18,7 @@ var urlEncodedParser = bodyParser.urlencoded({extended:false})
 
 async function main() {
     await client.connect()
-    DB = await client.db("1234124")
+    DB = null
     console.log("DB connected")
 
     app.use(bodyParser.json())
@@ -26,47 +29,99 @@ async function main() {
 
 
     app.get("/", function (req, res) {
-        
             res.render("../templates/index.html")
-
     })
 
-    app.get("/patients", function (req, res)  {
-            patient.getPatients(DB).then(function (response) {
+    app.get("/clients", function (req, res)  {
+            allClients.getClients(DB).then(function (response) {
                 res.json(response)
+            }).catch((err) => {
+                console.log("/clients: ", err)
             })
     })
 
     app.get("/reminders", function (req, res) {
         reminder.getAllReminders(DB).then(function (response) {
             res.json(response)
+        }).catch((err) => {
+            console.log("/reminders: ", err)
         })
     })
 
-    app.get("/show/patient/:id", function(req, res) {
-        console.log(req.params.id)
-        patient.showPatient(DB, req.params.id).then(function (response) {
-            // res.json(response)
-            res.render("../templates/index.html", res.json(response))
+    app.get("/client/:id", function(req, res) {
+        allClients.showClient(DB, req.params.id).then(function (response) {
+            res.json(response)
+        }).catch((err) => {
+            console.log("/show/client/:id: ", err)
         })
     })
 
-    app.post("/add/patient", urlEncodedParser ,function (req, res) {
+    app.get("/check/user/:id", async function (req, res) {
+        userDB = await client.db("users")
+        users.checkIFUserInDB(userDB, req.params.id).then((response) => {
+            res.json({val: response})
+        }).catch((err) => {
+            res.json({val: err})
+        })
+    })
+
+    app.post("/add/user", urlEncodedParser, async function (req, res) {
+        try {
+            const hashedPassword = await bcrypt.hash(req.body.pass, 10)
+            const user = {username: req.body.user, pass: hashedPassword}
+            
+            users.addUserToDB(client, user).then((response) => {
+                res.send("success")
+            }).catch((err) => {
+                res.send("failure")
+            })
+        } catch {
+            res.status(500).send()
+        }
+    })
+
+    app.post("/users/login", urlEncodedParser, async function (req, res) {
+        usersCol = await client.db("users").collection("users")
+
+        user = await usersCol.findOne({username:req.body.user})
+
+            if (user == null) {
+                return res.status(400).send("Cannot find user")
+            }
+            try {
+                if (await bcrypt.compare(req.body.pass, user.pass)) {
+                    DB = client.db(req.body.NPI)
+                    res.send(true)
+                } else {
+                    res.send(false)
+                }
+            } catch {
+                res.status(500).send()
+            }
+    })
+
+    app.post("/add/client", urlEncodedParser ,function (req, res) {
         req.body.reminders = []
-        patient.addPatients(DB, req.body).then(function (response) {
+        allClients.addClients(DB, req.body).then(function (response) {
             return res.redirect('/')
+        }).catch((err) => {
+            console.log("/add/clients: ", err)
         })
     })
 
     app.post("/add/reminder", urlEncodedParser ,function (req, res) {
         reminder.addReminder(DB, req.body).then(function (response) {
             return res.redirect('/')
+        }).catch((err) => {
+            console.log("/add/reminder: ", err)
         })
     })
 
-    app.post("/remove/patient", urlEncodedParser, function (req, res) {
-        patient.removePatients(DB, req.body).then(function (response) {
+    app.post("/remove/client", urlEncodedParser, function (req, res) {
+        allClients.removeClient(DB, req.body).then(function (response) {
             return res.redirect('/')
+        }).catch((err) => {
+            console.log("/remove/client: ", err)
         })
     })
 
@@ -74,7 +129,15 @@ async function main() {
         reminder.removeReminder(DB, req.body).then(function (response) {
             return res.redirect('/')
         }).catch((err)=>{
-            console.log(err)
+            console.log("/remove/reminder: ", err)
+        })
+    })
+
+    app.post("/add/reminder/client/:id", urlEncodedParser, function (req, res) {
+        reminder.addReminderToClientAndRemindersColl(DB, req.params.id, req.body).then(function (response) {
+            return res.redirect('/')
+        }) .catch((err) => {
+            console.log("/add/reminder/clients: ", err)
         })
     })
 

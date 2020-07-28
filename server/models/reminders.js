@@ -1,29 +1,21 @@
-const MongoClient = require('mongodb').MongoClient;
-require('dotenv').config()
-
-const uri = process.env.MONGO_URI
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-
-module.exports.getAllReminders = async function(doctorDB) {
+module.exports.getAllReminders = async function(DB) {
     return new Promise(async function(res, rej) {
-        // await client.connect()
-        // doctorDB = await client.db(NPI)
-        results = await doctorDB.collection("reminders").find().toArray()
+        results = await DB.collection("reminders").find().toArray()
 
         if (results) {
             res(results)
         } else {
-            rej()
+            rej("something went wrong")
         }
     })
 }
 
-module.exports.removeReminder = async function(doctorDB, reminder) {
+module.exports.removeReminder = async function(DB, reminder) {
     return new Promise(async function(res, rej) {
-        // await client.connect()
-        // doctorDB = client.db(NPI)
-        result = await doctorDB.collection("reminders").deleteOne(reminder)
+        clientInfo = await DB.collection("clients").findOneAndUpdate({uuid: reminder.uuid}, {$pull: {reminders: reminder}})
 
+        result = await DB.collection("reminders").deleteOne(reminder)
+        
         if (result.deletedCount >= 1) {
             res(result)
         } else {
@@ -32,16 +24,32 @@ module.exports.removeReminder = async function(doctorDB, reminder) {
     })
 }
 
-module.exports.addReminder = async function(doctorDB, reminder) {
+module.exports.addReminder = async function(DB, reminder) {
     return new Promise(async function(res, rej) {
-        // await client.connect()
-        // doctorDB = client.db(NPI)
-        result = await doctorDB.collection("reminders").insertOne(reminder)
+        result = await DB.collection("reminders").insertOne(reminder)
 
         if (result) {
             res(result)
         } else {
             rej("something went wrong")
+        }
+    })
+}
+
+module.exports.addReminderToClientAndRemindersColl = async function(DB, clientID, reminder){
+    return new Promise(async function(resolve, reject) {
+        reminder["uuid"] = clientID
+
+        reminderClient = await DB.collection("reminders").insertOne(reminder)
+
+        result = await DB.collection("clients").updateOne({uuid: clientID}, {$push:{reminders: reminder}})
+
+        if (reminderClient && result) {
+            resolve(result)
+        } else if (!result) {
+            reject("result: something went wrong")
+        } else {
+            reject("reminder: somehting went wrong")
         }
     })
 }
