@@ -20,7 +20,7 @@ $(document).ready(function () {
                 }
                 $.post("http://localhost:3000/users/login", user, function (data) {
                     if (data) {
-                        // document.location = "index.html"
+                        document.location = "index.html"
                     } else {
                         block = `<div class="alert"><span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
                                     <strong>Danger!</strong> Incorrect username or password.</div>`

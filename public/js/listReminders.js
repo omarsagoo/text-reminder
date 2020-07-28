@@ -27,14 +27,14 @@ $(document).ready(function () {
                 "</td><td id='body"+ i +"'>" +
                 response[i].body +
                 "</td><td>" +
-                "<button class='"+ i +" "+ response[i].uuid +"' id='reminder-delete-button'>Delete reminder</button></td></tr>"
+                "<button class='"+ i +" "+ response[i].clients[0].uuid +"' id='reminder-delete-button'>Delete reminder</button></td></tr>"
             };
         }
         document.getElementById("reminder-table").innerHTML = table +"</table>";
         
         $("button#reminder-delete-button").click(function () {
-            myClass = $(this).attr("class").split(" ")
-            // console.log(myClass[1])
+            myClass = $(this).attr("class")
+            console.log(myClass)
             formData = {
                 first_name: document.getElementById("fname" + myClass[0]).innerText,
                 last_name: document.getElementById("lname" + myClass[0]).innerText,

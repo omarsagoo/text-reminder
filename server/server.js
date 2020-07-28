@@ -31,8 +31,7 @@ module.exports.start = async function() {
         res.render("../templates/index.html")
     })
 
-    app.get("/clients/:id", function (req, res)  {
-        DB = client.db(req.params.id)
+    app.get("/clients/", function (req, res)  {
         allClients.getClients(DB).then(function (response) {
             res.json(response)
         }).catch((err) => {

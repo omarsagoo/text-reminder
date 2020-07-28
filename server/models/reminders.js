@@ -42,7 +42,8 @@ module.exports.addReminderToClientAndRemindersColl = async function(DB, clientID
             body: reminder.body,
             type: reminder.type,
             date: reminder.date,
-            time: reminder.time
+            time: reminder.time,
+            uuid: reminder.uuid
         }
         result = await DB.collection("clients").findOneAndUpdate({uuid: clientID}, {$push:{reminders: rem}})
         rem.clients = [result.value]
