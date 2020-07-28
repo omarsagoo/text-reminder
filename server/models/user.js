@@ -1,6 +1,6 @@
 module.exports.addUserToDB = async function (client, user) {
     return new Promise(async (res, rej) => {
-        allUserDB = await client.db("users")
+        allUserDB = await client.db("reminderApp")
         result = await allUserDB.collection("users").insertOne(user)
         userDB = await client.db(user.username)
         clientColl = await userDB.createCollection("clients")

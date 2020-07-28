@@ -19,9 +19,9 @@ $(document).ready(function () {
         } else {
             for (i = 0; i <response.length; i++) { 
                 table += "<tr><td id='lname"+ i +"'>" +
-                response[i].last_name +
+                response[i].clients[0].last_name +
                 "</a></td><td id='fname" + i + "'>" +
-                response[i].first_name +
+                response[i].clients[0].first_name +
                 "</td><td id='date"+ i +"'>" +
                 response[i].date +
                 "</td><td id='body"+ i +"'>" +

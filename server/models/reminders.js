@@ -38,16 +38,19 @@ module.exports.addReminder = async function(DB, reminder) {
 
 module.exports.addReminderToClientAndRemindersColl = async function(DB, clientID, reminder){
     return new Promise(async function(resolve, reject) {
-        result = await DB.collection("clients").findOneAndUpdate({uuid: clientID}, {$push:{reminders: reminder}})
-        if(reminder.type == "phone") {
-            reminder.sendTo = result.value.phone
-        } else {
-            reminder.sendTo = result.value.email
+        rem = {
+            body: reminder.body,
+            type: reminder.type,
+            date: reminder.date,
+            time: reminder.time
         }
-        reminderClient = await DB.collection("reminders").insertOne(reminder)
+        result = await DB.collection("clients").findOneAndUpdate({uuid: clientID}, {$push:{reminders: rem}})
+        rem.clients = [result.value]
+
+        reminderClient = await DB.collection("reminders").insertOne(rem)
 
         if (reminderClient && result) {
-            resolve(result)
+            resolve(rem)
         } else if (!result) {
             reject("result: something went wrong")
         } else {

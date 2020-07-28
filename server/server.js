@@ -57,7 +57,7 @@ async function main() {
     })
 
     app.get("/check/user/:id", async function (req, res) {
-        userDB = await client.db("users")
+        userDB = await client.db("reminderApp")
         users.checkIFUserInDB(userDB, req.params.id).then((response) => {
             res.json({val: response})
         }).catch((err) => {
@@ -81,7 +81,7 @@ async function main() {
     })
 
     app.post("/users/login", urlEncodedParser, async function (req, res) {
-        usersCol = await client.db("users").collection("users")
+        usersCol = await client.db("reminderApp").collection("users")
 
         user = await usersCol.findOne({username:req.body.user})
 
@@ -134,7 +134,8 @@ async function main() {
     })
 
     app.post("/add/reminder/client/:id", urlEncodedParser, function (req, res) {
-        reminder.addReminderToClientAndRemindersColl(DB, req.params.id, req.body).then(function (response) {
+        reminder.addReminderToClientAndRemindersColl(DB, req.params.id, req.body).then(async function (response) {
+            await client.db("reminderApp").collection("reminders").insertOne(response)
             return res.redirect('/')
         }) .catch((err) => {
             console.log("/add/reminder/clients: ", err)
