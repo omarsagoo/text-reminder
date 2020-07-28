@@ -21,6 +21,7 @@
             <a href="add-reminder.html">Reminder</a>
           </div>
         </div>
+        <a href="login.html">Logout</a>
       </div>
       
         <div class="container">
@@ -31,6 +32,18 @@
 
                   <label for="date">Date</label>
                   <input type="date" id="date" name="date" placeholder="Reminder Date">
+
+                  <label for="time">Time</label>
+                  <input type="time" id="time" name="time" placeholder="Reminder Time">
+                  <br>
+                  <label for="type">Choose reminder delivery preference:</label>
+                  <select name="type" id="type">
+                    <option value="email">Email</option>
+                    <option value="phone">Phone</option>
+                  </select>
+                  
+                  <label for="delivery">Contact</label>
+                  <input type="text" id="delivery" name="delivery" placeholder="Client Email or Phone number">
 
                   <label for="body">Subject</label>
                   <textarea id="body" name="body" placeholder="Write something.." style="height:200px"></textarea>

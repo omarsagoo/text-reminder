@@ -23,19 +23,26 @@
             <a href="add-reminder.html">Reminder</a>
           </div>
         </div>
+        <a href="login.html">Logout</a>
       </div>
 
         <div class="container">
                 <form action="/add/client" method="POST" id="ajax-add-client">
               
-                  <label for="name">Name</label>
-                  <input type="text" id="name" name="name" placeholder="Client name..">
+                  <label for="name">First Name</label>
+                  <input type="text" id="name" name="first_name" placeholder="Client first name..">
+
+                  <label for="name">Last Name</label>
+                  <input type="text" id="name" name="last_name" placeholder="Client last name..">
               
                   <label for="age">age</label>
                   <input type="text" id="age" name="age" placeholder="Client age..">
 
                   <label for="phone">Phone</label>
                   <input type="text" id="phone" name="phone" placeholder="Client Phone Number">
+
+                  <label for="email">Email</label>
+                  <input type="text" id="email" name="email" placeholder="Client Email Number">
               
                   <input type="submit" value="Submit">
                   <input type="submit" value="Cancel">

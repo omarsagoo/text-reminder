@@ -6,35 +6,60 @@ $(document).ready(function () {
         method: 'GET',
         url: 'http://localhost:3000/clients'
     }).then(function (response) {
-        var table="";
-        for (i = 0; i <response.length; i++) { 
-            table += "<tr><td id='name"+ i +"'>" +
-            "<a href='#"  +  "' class='" + response[i].uuid + "' id='client'>" +
-            response[i].name +
-            "</a></td><td>" +
-            response[i].phone +
-            "</td><td>" +
-            response[i].age +
-            "</td><td>" +
-            "<button class='"+ response[i].name +" "+ response[i].uuid +"' id='reminder-add-button'>Add Reminder</button></td><td>" +
-            "<button class='"+ response[i].uuid +"' id='client-delete-button'>Delete</button></td></tr>"
-        };
-        document.getElementById("clientTable").innerHTML += table;
+        var table=`<table>
+        <tr>
+          <th>Last Name</th>
+          <th>First Name</th>
+          <th>Phone</th>
+          <th>Age</th>
+          <th>Add Reminder</th>
+          <th>Remove</th>
+        </tr>`;
+        if (response.length == 0) {
+            table += "</table><table><tr><td>Nothing to show!</td></tr>"
+        } else {
+            for (i = 0; i <response.length; i++) { 
+                table += "<tr><td id='name"+ i +"'>" +
+                "<a href='#"  +  "' class='" + response[i].uuid + "' id='client'>" +
+                response[i].last_name +
+                "</a></td><td>" +
+                response[i].first_name +
+                "</td><td>" +
+                response[i].phone +
+                "</td><td>" +
+                response[i].age +
+                "</td><td>" +
+                "<button class='"+
+                response[i].first_name  + " " + response[i].last_name +
+                " "+ response[i].uuid +"' id='reminder-add-button'>Add Reminder</button></td><td>" +
+                "<button class='"+ response[i].uuid +"' id='client-delete-button'>Delete</button></td></tr>"
+            };
+        }
+        document.getElementById("clientTable").innerHTML += table + "</table>";
         
         $("button#reminder-add-button").click(function () {
-            myClass = $(this).attr("class")
+            myClass = $(this).attr("class").split(" ")
 
             block = `<form action="/add/reminder" method="POST" id="ajax-add-reminder">
 
                             <label for="date">Date</label>
                             <input type="date" id="date" name="date" placeholder="Reminder Date">
 
+                            <label for="time">Time</label>
+                            <input type="time" id="time" name="time" placeholder="Reminder Time">
+                            <br>
+                            <label for="type">Choose reminder delivery preference:</label>
+                            <select name="type" id="type">
+                            <option value="email">Email</option>
+                            <option value="phone">Phone</option>
+                            </select>
+
                             <label for="body">Subject</label>
                             <textarea id="body" name="body" placeholder="Write something.." style="height:200px"></textarea>
-                        
+
                             <input type="submit" value="Submit">
                             <input type="submit" value="Cancel">
-                            
+
                         </form>`
 
             document.getElementById("modal-body").innerHTML = "<span class='close'>&times;</span>" + block
@@ -46,9 +71,9 @@ $(document).ready(function () {
                 // Stop the browser from submitting the form.
                 event.preventDefault();
                 // Serialize the form data.
-                formData = $(form).serialize() + "&name=" + myClass.split(" ")[0] + "%20" +myClass.split(" ")[1]
+                formData = $(form).serialize() + "&first_name=" + myClass[0] + "&last_name=" +myClass[1] + "&uuid=" + myClass[2]
 
-                $.post("http://localhost:3000/add/reminder/client/"+myClass.split(" ")[2], formData, function(){
+                $.post("http://localhost:3000/add/reminder/client/"+myClass[2], formData, function(){
                     document.location = 'index.html'
                 });
             });
@@ -86,7 +111,9 @@ $(document).ready(function () {
             myClass = $(this).attr("class")
 
             $.getJSON("http://localhost:3000/client/" + myClass, function (data) {
-                block = "<span class='close'>&times;</span><p>Name: " + data.name + "</p> <div class='clients'><table id='clientTable'>" +
+                console.log(data)
+                block = "<span class='close'>&times;</span><p>Name: " + data.first_name +" " +
+                    data.last_name + "</p> <div class='clients'><table id='clientTable'>" +
                         `<tr>
                             <th>Date</th>
                             <th>Body</th>

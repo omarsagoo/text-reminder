@@ -38,11 +38,13 @@ module.exports.addReminder = async function(DB, reminder) {
 
 module.exports.addReminderToClientAndRemindersColl = async function(DB, clientID, reminder){
     return new Promise(async function(resolve, reject) {
-        reminder["uuid"] = clientID
-
+        result = await DB.collection("clients").findOneAndUpdate({uuid: clientID}, {$push:{reminders: reminder}})
+        if(reminder.type == "phone") {
+            reminder.sendTo = result.value.phone
+        } else {
+            reminder.sendTo = result.value.email
+        }
         reminderClient = await DB.collection("reminders").insertOne(reminder)
-
-        result = await DB.collection("clients").updateOne({uuid: clientID}, {$push:{reminders: reminder}})
 
         if (reminderClient && result) {
             resolve(result)

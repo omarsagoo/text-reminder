@@ -18,7 +18,7 @@ var urlEncodedParser = bodyParser.urlencoded({extended:false})
 
 async function main() {
     await client.connect()
-    DB = null
+    let DB = null
     console.log("DB connected")
 
     app.use(bodyParser.json())
@@ -90,7 +90,7 @@ async function main() {
             }
             try {
                 if (await bcrypt.compare(req.body.pass, user.pass)) {
-                    DB = client.db(req.body.NPI)
+                    DB = await client.db(req.body.user)
                     res.send(true)
                 } else {
                     res.send(false)
@@ -102,7 +102,7 @@ async function main() {
 
     app.post("/add/client", urlEncodedParser ,function (req, res) {
         req.body.reminders = []
-        allClients.addClients(DB, req.body).then(function (response) {
+        allClients.addClient(DB, req.body).then(function (response) {
             return res.redirect('/')
         }).catch((err) => {
             console.log("/add/clients: ", err)
