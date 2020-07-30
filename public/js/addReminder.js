@@ -1,5 +1,6 @@
 window.$ = window.jQuery = require('jquery');
 let $ = require("jquery")
+require('dotenv').config()
 
 
 $(function() {
@@ -15,7 +16,7 @@ $(function() {
         var formData = $(form).serialize();
 
         // Submit the form using AJAX.
-        $.post("http://localhost:3000/add/reminder", formData, function(){
+        $.post(process.env.PROJECT_URL + "/add/reminder", formData, function(){
             document.location = 'list-reminders.html'
         });
     });

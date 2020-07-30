@@ -1,10 +1,12 @@
 window.$ = window.jQuery = require('jquery');
 let $ = require("jquery")
+require('dotenv').config()
+
 
 $(document).ready(function () {
     $.ajax({
         method: 'GET',
-        url: 'http://localhost:3000/reminders'
+        url: process.env.PROJECT_URL + '/reminders'
     }).then(function (response) {
         var table =`<table id="reminderTable">
                         <tr>
@@ -34,7 +36,6 @@ $(document).ready(function () {
         
         $("button#reminder-delete-button").click(function () {
             myClass = $(this).attr("class")
-            console.log(myClass)
             formData = {
                 first_name: document.getElementById("fname" + myClass[0]).innerText,
                 last_name: document.getElementById("lname" + myClass[0]).innerText,
@@ -43,7 +44,7 @@ $(document).ready(function () {
                 uuid: myClass[1]
             }
 
-            $.post("http://localhost:3000/remove/reminder", formData, function(){
+            $.post(process.env.PROJECT_URL + "/remove/reminder", formData, function(){
                  document.location = 'list-reminders.html'
             });
         })

@@ -1,5 +1,7 @@
 window.$ = window.jQuery = require('jquery');
 let $ = require("jquery")
+require('dotenv').config()
+
 
 $(document).ready(function () {
     $.ajax({

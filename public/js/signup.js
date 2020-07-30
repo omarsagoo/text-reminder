@@ -1,5 +1,7 @@
 window.$ = window.jQuery = require('jquery');
 let $ = require("jquery")
+require('dotenv').config()
+
 
 $(document).ready(function () {
     var form = $('#add-user-form');
@@ -15,9 +17,9 @@ $(document).ready(function () {
                 user: formDataArray[0].value,
                 pass:formDataArray[1].value
             }
-            $.getJSON("http://localhost:3000/check/user/"+ formDataArray[0].value, function (data) {
+            $.getJSON(process.env.PROJECT_URL + "/check/user/"+ formDataArray[0].value, function (data) {
                 if (data.val == false) {
-                    $.post("http://localhost:3000/add/user", user, function () {
+                    $.post(process.env.PROJECT_URL + "/add/user", user, function () {
                         document.location = "login.html"
                     })
                 } else {

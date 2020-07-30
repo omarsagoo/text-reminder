@@ -1,10 +1,12 @@
 window.$ = window.jQuery = require('jquery');
 let $ = require("jquery")
+require('dotenv').config()
+
 
 $(document).ready(function () {
     $.ajax({
         method: 'GET',
-        url: 'http://localhost:3000/clients'
+        url: process.env.PROJECT_URL + '/clients'
     }).then(function (response) {
         var table=`<table>
         <tr>
@@ -50,8 +52,8 @@ $(document).ready(function () {
                             <br>
                             <label for="type">Choose reminder delivery preference:</label>
                             <select name="type" id="type">
-                            <option value="email">Email</option>
                             <option value="phone">Phone</option>
+                            <option value="email">Email</option>
                             </select>
 
                             <label for="body">Subject</label>
@@ -71,9 +73,13 @@ $(document).ready(function () {
                 // Stop the browser from submitting the form.
                 event.preventDefault();
                 // Serialize the form data.
-                formData = $(form).serialize() + "&first_name=" + myClass[0] + "&last_name=" +myClass[1] + "&uuid=" + myClass[2]
+                f = $(form).serializeArray()
+                d = f[0].value + " " + f[1].value
+                utc = new Date(d).toISOString().substring(0,16)
+                f.push({name: "datetime", value: utc})
+                console.log(f)
 
-                $.post("http://localhost:3000/add/reminder/client/"+myClass[2], formData, function(){
+                $.post(process.env.PROJECT_URL + "/add/reminder/client/"+myClass[2], f, function(){
                     document.location = 'index.html'
                 });
             });
@@ -102,7 +108,7 @@ $(document).ready(function () {
                 uuid: myClass
             }
 
-            $.post("http://localhost:3000/remove/client", formData, function(){
+            $.post(process.env.PROJECT_URL + "/remove/client", formData, function(){
                  document.location = 'index.html'
             });
         })
@@ -110,9 +116,8 @@ $(document).ready(function () {
         $("a#client").click(async function () {
             myClass = $(this).attr("class")
 
-            $.getJSON("http://localhost:3000/client/" + myClass, function (data) {
-                console.log(data)
-                block = "<span class='close'>&times;</span><p>Name: " + data.first_name +" " +
+            $.getJSON(process.env.PROJECT_URL + "/client/" + myClass, function (data) {
+                block = "<span class='close'>&times;</span><p>Name: " + data.first_name + " " +
                     data.last_name + "</p> <div class='clients'><table id='clientTable'>" +
                         `<tr>
                             <th>Date</th>
@@ -125,7 +130,7 @@ $(document).ready(function () {
                     data.reminders.forEach((reminder, i ) => {
                         block += "<tr><td>" + reminder.date + "</td><td>" + reminder.body + "</td></tr>"
                     })
-                    
+
                     document.getElementById("modal-body").innerHTML = block + "</table></div>"
                 }
             })
@@ -145,8 +150,6 @@ $(document).ready(function () {
                 modal.style.display = "none";
                 }
             }
-
         })
     })
 });
-

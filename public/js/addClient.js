@@ -1,5 +1,6 @@
 window.$ = window.jQuery = require('jquery');
 let $ = require("jquery")
+require('dotenv').config()
 
 
 $(function() {
@@ -18,7 +19,7 @@ $(function() {
         formData += "&uuid=" + uuidv4()
 
         // Submit the form using AJAX.
-        $.post("http://localhost:3000/add/client", formData, function(){
+        $.post(process.env.PROJECT_URL + "/add/client", formData, function(){
             document.location = 'index.html'
         });
     });

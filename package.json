@@ -1,17 +1,32 @@
 {
-  "name": "electron-text-reminder",
+  "name": "text-reminder",
   "version": "1.0.0",
   "description": "A minimal Electron application that send text reminders",
+  "homepage": "https://https://github.com/omarsagoo/text-reminder",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "build": {
+    "appId": "reminder.electron.app",
+    "copyright": "Copyright © 2020 Omar Sagoo",
+    "mac": {
+      "category": "reminder.utility"
+    }
   },
   "repository": "https://https://github.com/omarsagoo/text-reminder",
   "keywords": [],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "author": {
+    "name": "Omar Sagoo",
+    "email": "om.sagoo@gmail.com"
+  },
+  "license": "LICENSE.md",
   "devDependencies": {
-    "electron": "^9.1.1"
+    "electron": "^9.1.1",
+    "electron-builder": "^22.8.0"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
@@ -21,7 +36,6 @@
     "express": "^4.17.1",
     "jquery": "^3.5.1",
     "mongodb": "^3.5.9",
-    "node-cron": "^2.0.3",
-    "twilio": "^3.48.1"
+    "node-cron": "^2.0.3"
   }
 }
